@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+	"errors"
+)
+
+
+func printCombination(str string, maxLen int) error{
+
+	prefix := str[0:1]
+	postfix := str[1:]
+
+	//Function responsible for pring the combination till max len
+	if (maxLen < len(prefix)){
+		return errors.New("prifix should shorter than max len")
+	}
+
+	if(len(prefix) == maxLen){
+		fmt.Println(prefix)
+		return nil
+	}
+
+	output := prefix
+	for i:=0 ; i<len(postfix);i++{
+		output = prefix
+		for j:= i; len(output)<maxLen;j++{
+			if(len(postfix[i:])<maxLen-1){
+				return nil
+			}
+			output = 	output + postfix[j:j+1]
+		}
+		fmt.Println(output)
+	}
+	return nil
+}
+
+
+func printAllCombination(s string) error{
+	var err error
+	for maxLen := 1 ; maxLen <= len(s); maxLen++{
+		for i:=0 ; i< len(s); i++ {
+			// if (i+1 >= len(s) || len( s[i+1:])<maxLen){
+			// 	break
+			// }
+			err = printCombination(s[i:], maxLen)
+		}
+	}
+	return err
+}
+
+func test1(){
+	err := printAllCombination("abcde")
+	if (err != nil){
+		fmt.Println("Error =>", err.Error())
+	}
+}
+
+func main(){
+	test1()
+}
