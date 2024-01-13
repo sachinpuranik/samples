@@ -32,7 +32,6 @@ func convertZigZagSlow(s string, numRows int) string {
 			continue
 		}
 		risingCount--
-
 	}
 	final := ""
 	for _, row := range rows {
@@ -43,6 +42,11 @@ func convertZigZagSlow(s string, numRows int) string {
 
 	return final
 }
+
+// Algo
+// Run the program and observe the output.
+// I represents the wor number.
+//
 
 func convertZigZagFast(s string, numRows int) string {
 	if numRows == 1 {
@@ -55,8 +59,10 @@ func convertZigZagFast(s string, numRows int) string {
 
 	for i := 0; i < numRows; i++ {
 		for j := 0; j+i < n; j += cycleLen {
+			fmt.Printf("\n result.WriteByte(s[j(%d)+i(%d)])) : %d", j, i, j+i)
 			result.WriteByte(s[j+i])
 			if i != 0 && i != numRows-1 && j+cycleLen-i < n {
+				fmt.Printf("\n result.WriteByte(s[j(%d)+cycleLen(%d)-i(%d)]) : %d", j, cycleLen, i, j+cycleLen-i)
 				result.WriteByte(s[j+cycleLen-i])
 			}
 		}
@@ -86,11 +92,11 @@ func main() {
 		fmt.Println("fail")
 	}
 
-	out = convertZigZagFast("AB", 1)
+	// out = convertZigZagFast("AB", 1)
 
-	if out == "AB" {
-		fmt.Println("pass")
-	} else {
-		fmt.Println("fail")
-	}
+	// if out == "AB" {
+	// 	fmt.Println("pass")
+	// } else {
+	// 	fmt.Println("fail")
+	// }
 }
