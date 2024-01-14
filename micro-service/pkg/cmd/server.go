@@ -43,13 +43,15 @@ func RunServer() error {
 	flag.StringVar(&cfg.DatastoreDBSchema, "db-schema", "", "Database schema")
 	flag.Parse()
 
+	updateDefaultCfg(&cfg)
+
 	if len(cfg.GRPCPort) == 0 {
 		return fmt.Errorf("invalid TCP port for gRPC server: '%s'", cfg.GRPCPort)
 	}
 
 	// add MySQL driver specific parameter to parse date/time
 	// Drop it for another database
-	param := "parseTime=true"
+	param := "parseTime=true&allowPublicKeyRetrieval=true&useSSL=false"
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
 		cfg.DatastoreDBUser,
@@ -57,6 +59,7 @@ func RunServer() error {
 		cfg.DatastoreDBHost,
 		cfg.DatastoreDBSchema,
 		param)
+
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %v", err)
@@ -66,4 +69,12 @@ func RunServer() error {
 	v1API := v1.NewToDoServiceServer(db)
 
 	return grpc.RunServer(ctx, v1API, cfg.GRPCPort)
+}
+
+func updateDefaultCfg(cfg *Config) {
+	cfg.GRPCPort = "5050"
+	cfg.DatastoreDBHost = "127.0.0.1"
+	cfg.DatastoreDBUser = "root"
+	cfg.DatastoreDBPassword = "admin123"
+	cfg.DatastoreDBSchema = "microservice"
 }

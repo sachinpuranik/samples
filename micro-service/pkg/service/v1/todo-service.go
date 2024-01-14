@@ -20,6 +20,7 @@ const (
 
 // toDoServiceServer is implementation of v1.ToDoServiceServer proto interface
 type toDoServiceServer struct {
+	v1.UnimplementedToDoServiceServer
 	db *sql.DB
 }
 
@@ -27,6 +28,9 @@ type toDoServiceServer struct {
 func NewToDoServiceServer(db *sql.DB) v1.ToDoServiceServer {
 	return &toDoServiceServer{db: db}
 }
+
+// func (toDoServiceServer) mustEmbedUnimplementedToDoServiceServer() {
+// }
 
 // checkAPI checks if the API version requested by client is supported by server
 func (s *toDoServiceServer) checkAPI(api string) error {
