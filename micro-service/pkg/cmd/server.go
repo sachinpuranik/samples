@@ -51,7 +51,8 @@ func RunServer() error {
 
 	// add MySQL driver specific parameter to parse date/time
 	// Drop it for another database
-	param := "parseTime=true&allowPublicKeyRetrieval=true&useSSL=false"
+	// param := "parseTime=true&allowPublicKeyRetrieval=true&useSSL=false"
+	param := "parseTime=true"
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?%s",
 		cfg.DatastoreDBUser,
@@ -60,11 +61,17 @@ func RunServer() error {
 		cfg.DatastoreDBSchema,
 		param)
 
+	fmt.Println("DSN :", dsn)
+
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return fmt.Errorf("failed to open database: %v", err)
 	}
 	defer db.Close()
+
+	if err := db.Ping(); err != nil {
+		return fmt.Errorf("cannot ping database: %v", err)
+	}
 
 	v1API := v1.NewToDoServiceServer(db)
 

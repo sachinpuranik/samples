@@ -29,8 +29,8 @@ func NewToDoServiceServer(db *sql.DB) v1.ToDoServiceServer {
 	return &toDoServiceServer{db: db}
 }
 
-// func (toDoServiceServer) mustEmbedUnimplementedToDoServiceServer() {
-// }
+func (*toDoServiceServer) mustEmbedUnimplementedToDoServiceServer() {
+}
 
 // checkAPI checks if the API version requested by client is supported by server
 func (s *toDoServiceServer) checkAPI(api string) error {
