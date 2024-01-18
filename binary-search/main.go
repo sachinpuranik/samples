@@ -35,9 +35,9 @@ func BinarySearchCustom(list []int, n int) int {
 // BinarySearch performs binary search on a sorted array.
 func BinarySearchOfficial(arr []int, target int) int {
 	low, high := 0, len(arr)-1
-
 	for low <= high {
 		mid := low + (high-low)/2
+		// mid := (high + low) / 2 //this also give the same result - though high+low might just overflow of int32 capacity. first statement is safe
 
 		if arr[mid] == target {
 			return mid // Target found, return its index
@@ -53,5 +53,6 @@ func BinarySearchOfficial(arr []int, target int) int {
 
 func main() {
 	list := []int{11, 14, 17, 21, 24, 27, 32, 35, 39, 42, 47, 52}
-	fmt.Printf("list : %v , found-pos : %d", list, BinarySearchCustom(list, 52))
+	find := 52
+	fmt.Printf("list : %v , find : %d, found-pos : %d", list, find, BinarySearchCustom(list, find))
 }
