@@ -4,6 +4,9 @@ import (
 	"fmt"
 )
 
+// Problem - def
+// Find the lomgest substr from a given string
+
 func getLen(s string) int {
 	counter := make(map[rune]int, 0)
 	for _, r := range s {

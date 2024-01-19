@@ -1,0 +1,130 @@
+diff --git a/ll_cycle/main.go b/ll_cycle/main.go
+index e1d6645..73cb4e1 100644
+--- a/ll_cycle/main.go
++++ b/ll_cycle/main.go
+@@ -10,8 +10,8 @@ type Node struct {
+ 	Value int
+ }
+ 
+-// CheckCycle -
+-func CheckCycle(head *Node) bool {
++// CheckCycleCustom -
++func CheckCycleCustom(head *Node) bool {
+ 	if head == nil || head.Next == nil {
+ 		return false //
+ 	}
+@@ -32,6 +32,31 @@ func CheckCycle(head *Node) bool {
+ 	return false
+ }
+ 
++// CheckCycleSimplified
++func CheckCycleSimplified(head *Node) bool {
++	// Handle empty or single-node lists directly:
++	if head == nil || head.Next == nil {
++		return false
++	}
++
++	// Use descriptive variable names:
++	slowPointer := head
++	fastPointer := head.Next
++
++	// Loop until fastPointer reaches the end or a cycle is detected:
++	for fastPointer != nil && fastPointer.Next != nil {
++		if fastPointer == slowPointer {
++			return true // Cycle detected
++		}
++
++		// Move pointers at different speeds:
++		slowPointer = slowPointer.Next
++		fastPointer = fastPointer.Next.Next
++	}
++
++	return false // No cycle found
++}
++
+ // InsertNode -
+ func InsertNode(node, head *Node) *Node {
+ 	node.Next = head
+@@ -57,7 +82,7 @@ func main() {
+ 
+ 	// Test 1 head = nil
+ 	head = nil
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -71,7 +96,7 @@ func main() {
+ 	}
+ 
+ 	// Test 2.1 No Cycle
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -79,7 +104,7 @@ func main() {
+ 
+ 	// Test 2.2 Cycle
+ 	CreateCycle(head)
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -93,7 +118,7 @@ func main() {
+ 	}
+ 
+ 	// Test 3.1
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -101,7 +126,7 @@ func main() {
+ 
+ 	// Test 3.2 Cycle
+ 	CreateCycle(head)
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -114,7 +139,7 @@ func main() {
+ 		head = InsertNode(node, head)
+ 	}
+ 	// Test 4.1
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+@@ -122,7 +147,7 @@ func main() {
+ 
+ 	// Test 4.2 Cycle
+ 	CreateCycle(head)
+-	if CheckCycle(head) == true {
++	if CheckCycleSimplified(head) == true {
+ 		fmt.Println("has Cycle")
+ 	} else {
+ 		fmt.Println("No Cycle")
+diff --git a/longest_substr/main.go b/longest_substr/main.go
+index 95f1871..0ac08cd 100644
+--- a/longest_substr/main.go
++++ b/longest_substr/main.go
+@@ -4,6 +4,9 @@ import (
+ 	"fmt"
+ )
+ 
++// Problem - def
++// Find the lomgest substr from a given string
++
+ func getLen(s string) int {
+ 	counter := make(map[rune]int, 0)
+ 	for _, r := range s {
+diff --git a/micro-service/client b/micro-service/client
+index 91ad73b..c85dc70 100755
+Binary files a/micro-service/client and b/micro-service/client differ
+diff --git a/micro-service/server b/micro-service/server
+index 3d5143e..ee7d5ce 100755
+Binary files a/micro-service/server and b/micro-service/server differ

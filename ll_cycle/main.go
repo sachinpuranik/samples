@@ -10,8 +10,8 @@ type Node struct {
 	Value int
 }
 
-// CheckCycle -
-func CheckCycle(head *Node) bool {
+// CheckCycleCustom -
+func CheckCycleCustom(head *Node) bool {
 	if head == nil || head.Next == nil {
 		return false //
 	}
@@ -30,6 +30,31 @@ func CheckCycle(head *Node) bool {
 		follow = follow.Next
 	}
 	return false
+}
+
+// CheckCycleSimplified
+func CheckCycleSimplified(head *Node) bool {
+	// Handle empty or single-node lists directly:
+	if head == nil || head.Next == nil {
+		return false
+	}
+
+	// Use descriptive variable names:
+	slowPointer := head
+	fastPointer := head.Next
+
+	// Loop until fastPointer reaches the end or a cycle is detected:
+	for fastPointer != nil && fastPointer.Next != nil {
+		if fastPointer == slowPointer {
+			return true // Cycle detected
+		}
+
+		// Move pointers at different speeds:
+		slowPointer = slowPointer.Next
+		fastPointer = fastPointer.Next.Next
+	}
+
+	return false // No cycle found
 }
 
 // InsertNode -
@@ -57,7 +82,7 @@ func main() {
 
 	// Test 1 head = nil
 	head = nil
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -71,7 +96,7 @@ func main() {
 	}
 
 	// Test 2.1 No Cycle
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -79,7 +104,7 @@ func main() {
 
 	// Test 2.2 Cycle
 	CreateCycle(head)
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -93,7 +118,7 @@ func main() {
 	}
 
 	// Test 3.1
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -101,7 +126,7 @@ func main() {
 
 	// Test 3.2 Cycle
 	CreateCycle(head)
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -114,7 +139,7 @@ func main() {
 		head = InsertNode(node, head)
 	}
 	// Test 4.1
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
@@ -122,7 +147,7 @@ func main() {
 
 	// Test 4.2 Cycle
 	CreateCycle(head)
-	if CheckCycle(head) == true {
+	if CheckCycleSimplified(head) == true {
 		fmt.Println("has Cycle")
 	} else {
 		fmt.Println("No Cycle")
