@@ -6,8 +6,10 @@ import (
 
 func BubbleAscending(list []int) {
 	l := len(list)
+	fmt.Println("len : ", l)
 	for i := 0; i < l-1; i++ {
 		for j := 0; j < l-1-i; j++ {
+			fmt.Printf("i : %d, j : %d \n", i, j)
 			if list[j] > list[j+1] {
 				list[j], list[j+1] = list[j+1], list[j]
 			}
@@ -16,13 +18,15 @@ func BubbleAscending(list []int) {
 }
 
 // BubbleDescending described
-// for a list with len l = 5 , means maxIndex = (l-1)
+// for a list with len l = 5 , means maxIndex = (l-1) = 4
 // outer loop range i := 0 to 3 ( <maxIndex - not less than or equal to)
-// inner loop range i := 0 to < maxIndex-i ( leave the last element in each loop since it has found its place)
+// inner loop range i := 0 to < (maxIndex-i)(3,2,1,0) ( leave the last element in each loop since it has found its place)
 func BubbleDescending(list []int) {
 	l := len(list)
+	fmt.Println("len : ", l)
 	for i := 0; i < l-1; i++ {
 		for j := 0; j < l-1-i; j++ {
+			fmt.Printf("i : %d, j : %d \n", i, j)
 			if list[j] < list[j+1] {
 				list[j], list[j+1] = list[j+1], list[j]
 			}
