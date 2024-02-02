@@ -6,8 +6,9 @@ import (
 
 // Algo
 // 1. If new interval is completely bigger than the one in the list, append the element from list to result.
-// 2. If new interval is completely smaller than the one in the list, append new interval in the list.
+// 2. If new interval is completely smaller than the one in the list, append new interval in the list. and now interval becomes merge-interval. Candidate for next merge.
 // 3. If the intervals overlap , take minimum of 0th element , and mx of 1st element of both intervals and form a newInterval. - This is basically merge step.
+// 4. Finally append the pending merge-interval as a last element to result and return
 
 func insert(intervals [][]int, newInterval []int) [][]int {
 	result := [][]int{}

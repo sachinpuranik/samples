@@ -132,15 +132,48 @@ func main5() {
 	}
 }
 
-func main() {
-	var s string = "hellosachin"
-	runesToString([]rune(s))
-}
-
 func runesToString(runes []rune) (outString string) {
 	// don't need index so _
 	for i, v := range runes {
 		fmt.Println(i, string(v))
 	}
 	return
+}
+
+func main6() {
+	var s string = "hellosachin"
+	runesToString([]rune(s))
+}
+
+func main7() {
+	ii := []int{10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110}
+
+	// proof - range retains the snapshot of the given data structure
+	for k, v := range ii {
+		fmt.Printf("k : %d , v: %d , arr : %v\n", k, v, ii)
+		if len(ii) >= 2 {
+			ii = ii[2:]
+		} else if len(ii) == 1 {
+			ii = ii[1:]
+		} else {
+			ii = ii[0:]
+		}
+	}
+}
+
+type adder func(a int, b int) int
+
+func (a adder) CallMe() {
+	fmt.Println("wow its", a(1, 2))
+}
+
+func getAdder() adder {
+	return func(a int, b int) int {
+		return a + b
+	}
+}
+
+func main() {
+	a := getAdder()
+	a.CallMe()
 }
