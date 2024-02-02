@@ -43,11 +43,22 @@ func convertZigZagSlow(s string, numRows int) string {
 	return final
 }
 
-// Algo
-// Run the program and observe the output.
-// I represents the wor number.
-//
+// Given string "ABCDEFGHIJKLMN" and lets say number of rows is 3. In this case, the string will be written in the following way:
+// A   E   I   M
+// B D F H J L N
+// C   G   K
+// Same string will be written in the following way if number of rows is 4:
+// A     G     M
+// B   F H   L N
+// C E   I K
+// D     J
 
+// Algo
+// 1. Create a string builder to store the result.
+// 2. Find the cycle length. It is 2 * (numRows - 1). Essentially span how many characters are there in a cycle.
+// 3. For each row , iterate through array pick the elements. if row number is 0 or row number numRows-1, then we will pick only one element j+i , else we will pick two elements j+i and j+cycleLen-i (its like v)
+// 4. example - ABCDEFGHIJKLMN with 3 rows, for row 0 , it will be A, E, I, M., for row 1, it will be B, D, F, H, J, L, N. for row 2, it will be C, G, K.
+// Note - In each cycle
 func convertZigZagFast(s string, numRows int) string {
 	if numRows == 1 {
 		return s
@@ -58,7 +69,9 @@ func convertZigZagFast(s string, numRows int) string {
 	cycleLen := 2 * (numRows - 1)
 
 	for i := 0; i < numRows; i++ {
+		fmt.Printf("\n Loop i : %d", i)
 		for j := 0; j+i < n; j += cycleLen {
+			fmt.Printf("\n Loop j : %d", j)
 			fmt.Printf("\n result.WriteByte(s[j(%d)+i(%d)])) : %d", j, i, j+i)
 			result.WriteByte(s[j+i])
 			if i != 0 && i != numRows-1 && j+cycleLen-i < n {
@@ -72,21 +85,22 @@ func convertZigZagFast(s string, numRows int) string {
 }
 
 func main() {
-	s := "PAYPALISHIRING"
+	s := "ABCDEFGHIJKLMN"
+
 	numRows := 3
 
 	out := convertZigZagSlow(s, numRows)
 
-	if out == "PAHNAPLSIIGYIR" {
+	if out == "AEIMBDFHJLNCGK" {
 		fmt.Println("pass")
 	} else {
 		fmt.Println("fail")
 	}
 
-	numRows++
+	numRows = 4
 	out = convertZigZagFast(s, numRows)
 
-	if out == "PINALSIGYAHRPI" {
+	if out == "AGMBFHLNCEIKDJ" {
 		fmt.Println("pass")
 	} else {
 		fmt.Println("fail")

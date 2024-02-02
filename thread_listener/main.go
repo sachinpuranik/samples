@@ -14,7 +14,6 @@ type obj struct {
 }
 
 func main() {
-
 	myobj := &obj{}
 	myobj.dataChannel = make(chan int, 1)
 	myobj.stopperChannel = make(chan string, 1)
@@ -31,11 +30,11 @@ func main() {
 		}()
 
 		for myobj.threadRuning && !localStop {
-			//Do some work and continue the next steps.
+			// Do some work and continue the next steps.
 			count = count + 1
 			time.Sleep(time.Duration(1000) * time.Millisecond)
 			if myobj.threadRuning && (count == 10) {
-				//Post the result back to master thread.
+				// Post the result back to master thread.
 				log.Println("Listner :  will stop since count is 10")
 				myobj.dataChannel <- count
 				myobj.stopperChannel <- "stop"
@@ -65,7 +64,6 @@ func main() {
 		} else {
 			log.Println("Stopper :  Thread was alreay halted")
 		}
-
 	}()
 
 	for {
