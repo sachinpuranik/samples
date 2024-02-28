@@ -1,4 +1,4 @@
-module example.com/m
+module example.com/conditional-var
 
 go 1.21.6
 

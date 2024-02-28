@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang/protobuf/ptypes"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -43,19 +44,23 @@ func (client *Client) DisconnectGRPCServer() {
 	client.conn.Close()
 }
 
-func (client *Client) helloHandler(rw http.ResponseWriter, req *http.Request) {
-	rw.Write([]byte("hello"))
-	rw.WriteHeader(http.StatusOK)
+func (client *Client) helloHandler(c *gin.Context) {
+	w := c.Writer
+	w.Write([]byte("hello"))
+	w.WriteHeader(http.StatusOK)
 }
 
-func (client *Client) createTodo(rw http.ResponseWriter, req *http.Request) {
+func (client *Client) createTodo(c *gin.Context) {
 	var p ToDo
+
+	w := c.Writer
+	r := c.Request
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
-	err := json.NewDecoder(req.Body).Decode(&p)
+	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -77,7 +82,7 @@ func (client *Client) createTodo(rw http.ResponseWriter, req *http.Request) {
 	res, err := client.cl.Create(ctx, &bufReq)
 	if err != nil {
 		log.Fatalf("Create failed: %v", err)
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	log.Printf("Create result: <%+v>\n\n", res)
@@ -86,21 +91,24 @@ func (client *Client) createTodo(rw http.ResponseWriter, req *http.Request) {
 
 	jsonData, err := json.Marshal(p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(jsonData)
-	rw.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+	w.WriteHeader(http.StatusOK)
 }
 
-func (client *Client) readTodo(rw http.ResponseWriter, req *http.Request) {
+func (client *Client) readTodo(c *gin.Context) {
 	var p ToDo
 
-	err := json.NewDecoder(req.Body).Decode(&p)
+	w := c.Writer
+	r := c.Request
+
+	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -125,23 +133,26 @@ func (client *Client) readTodo(rw http.ResponseWriter, req *http.Request) {
 
 	jsonData, err := json.Marshal(p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(jsonData)
-	rw.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+	w.WriteHeader(http.StatusOK)
 }
 
-func (client *Client) updateTodo(rw http.ResponseWriter, req *http.Request) {
+func (client *Client) updateTodo(c *gin.Context) {
 	var p ToDo
+
+	w := c.Writer
+	r := c.Request
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
-	err := json.NewDecoder(req.Body).Decode(&p)
+	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -168,15 +179,17 @@ func (client *Client) updateTodo(rw http.ResponseWriter, req *http.Request) {
 
 	jsonData, err := json.Marshal(res.Updated)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(jsonData)
-	rw.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+	w.WriteHeader(http.StatusOK)
 }
 
-func (client *Client) readAllTodo(rw http.ResponseWriter, req *http.Request) {
+func (client *Client) readAllTodo(c *gin.Context) {
+	w := c.Writer
+
 	// ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 	// defer cancel()
 	ctx := context.Background()
@@ -202,23 +215,26 @@ func (client *Client) readAllTodo(rw http.ResponseWriter, req *http.Request) {
 
 	jsonData, err := json.Marshal(resp)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(jsonData)
-	rw.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+	w.WriteHeader(http.StatusOK)
 }
 
-func (client *Client) deleteTodo(rw http.ResponseWriter, req *http.Request) {
+func (client *Client) deleteTodo(c *gin.Context) {
 	var p ToDo
+
+	w := c.Writer
+	r := c.Request
 
 	// Try to decode the request body into the struct. If there is an error,
 	// respond to the client with the error message and a 400 status code.
-	err := json.NewDecoder(req.Body).Decode(&p)
+	err := json.NewDecoder(r.Body).Decode(&p)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -238,13 +254,13 @@ func (client *Client) deleteTodo(rw http.ResponseWriter, req *http.Request) {
 
 	jsonData, err := json.Marshal(res.Deleted)
 	if err != nil {
-		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	rw.Header().Set("Content-Type", "application/json")
-	rw.Write(jsonData)
-	rw.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(jsonData)
+	w.WriteHeader(http.StatusOK)
 }
 
 type Client struct {
@@ -266,14 +282,22 @@ type HttpServerConfig struct {
 }
 
 func (client *Client) RunClientService(cfg HttpServerConfig) {
-	mux := http.DefaultServeMux
+	root := gin.New()
 
-	mux.HandleFunc("/", client.helloHandler)
-	mux.HandleFunc("/create", client.createTodo)
-	mux.HandleFunc("/read", client.readTodo)
-	mux.HandleFunc("/read-all", client.readAllTodo)
-	mux.HandleFunc("/update", client.updateTodo)
-	mux.HandleFunc("/delete", client.deleteTodo)
+	var grp gin.IRoutes = root.Group("/")
 
-	go http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", cfg.Port), mux)
+	grp.POST("/create", client.createTodo)
+	grp.GET("/read", client.readTodo)
+	grp.GET("/read-all", client.readAllTodo)
+	grp.PUT("/update", client.updateTodo)
+	grp.DELETE("/delete", client.deleteTodo)
+
+	// basicAuth := gin.BasicAuth(gin.Accounts{
+	// 	"sachin": "test",
+	// })
+	// grp.Use(basicAuth)
+
+	grp.GET("/", client.helloHandler)
+
+	go http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", cfg.Port), root)
 }

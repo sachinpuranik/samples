@@ -8,6 +8,8 @@
 // Input: s1 = "ab", s2 = "eidboaoo"
 // Output: false
 
+// https://leetcode.com/problems/permutation-in-string/
+
 package main
 
 import (

@@ -17,6 +17,12 @@ func BubbleAscending(list []int) {
 	}
 }
 
+// Let l = 10 (len of array)
+// Loop  for I = (0 , 1 ,.....8) (I < L-1)
+// Loop for J = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9) (J < L-1-I)
+// 	(The index till each point loop continues is L-1-0 . L-2-1, L-3-2, L-4-3, L-5-4, L-6-5, L-7-6, L-8-7, L-9-8)
+// 	(9-0 = 9, 9-1 = 9,..., 9-8 = 1) )(L-1 = 9)
+
 // BubbleDescending described
 // for a list with len l = 5 , means maxIndex = (l-1) = 4
 // outer loop range i := 0 to 3 ( <maxIndex - not less than or equal to)

@@ -2,12 +2,18 @@ package main
 
 import (
 	"fmt"
+	"unicode/utf8"
 )
 
 func strStr(haystack string, needle string) int {
 	found := false
 	pos := -1
-	n := rune(needle[0])
+	// n := rune(needle[0])
+	n, size := utf8.DecodeRuneInString(needle)
+	// n, size := utf8.DecodeRune([]byte(needle))
+
+	fmt.Printf("\n n : %c, size : %d", n, size)
+
 	for i, r := range haystack {
 		if r == n {
 			end := i + len(needle)
@@ -28,8 +34,8 @@ func strStr(haystack string, needle string) int {
 }
 
 func main() {
-	s := "this is a string"
-	ss := "s i"
+	s := "├this is a string"
+	ss := "├th"
 	pos := strStr(s, ss)
 
 	fmt.Printf("\n str : %s, find : %s, pos : %d", s, ss, pos)

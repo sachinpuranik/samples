@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<title>My first PHP Website</title>
+		<style>
+			div {
+				background-color: lightblue;
+				border: 5px solid #4CAF50;
+				padding: 5px;
+				margin: 5px;
+			}
+
+			h1 {
+				border: 10px solid #FF0000;
+				padding: 10px;
+				margin: 10px;
+			}
+
+			h2 {
+
+				border: 15px solid #00FF00;
+				margin: 15px;
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body style="padding:20px">
+		<div >
+			<label>Cel</label><input type="text" id="cel" onKeydown="kshiti('C')">
+			<br/>
+			<label>Fah</label><input type="text" id="fah" onKeyup="kshiti('F')">
+		</div>
+		<script>
+			function kshiti(temprature) {
+				if (temprature == "F") {
+					var f = document
+						.getElementById("fah")
+						.value;
+					var c = (f - 32) * 5 / 9;
+					document
+						.getElementById("cel")
+						.value = c;
+
+				} else {
+					var c = document
+						.getElementById("cel")
+						.value;
+					var f = (c * 9 / 5) + 32;
+					document
+						.getElementById("fah")
+						.value = f;
+
+				}
+			}
+		</script>
+
+	</body>
+</html>

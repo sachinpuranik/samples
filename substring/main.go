@@ -32,10 +32,21 @@ func CheckSubstring(inString, findStr string) (int, error) {
 	return -1, nil
 }
 
+func CheckSubstringFast(inString, findStr string) (int, error) {
+	l := len(findStr)
+
+	for i := 0; i < len(inString); i++ {
+		if inString[i:i+l] == findStr {
+			return i, nil
+		}
+	}
+	return -1, nil
+}
+
 func test1() {
-	s1 := "My name is sachin"
-	s2 := "sac"
-	location, err := CheckSubstring(s1, s2)
+	s1 := "My name is ├sachin"
+	s2 := "├sac"
+	location, err := CheckSubstringFast(s1, s2)
 
 	if err != nil {
 		fmt.Println("Some error finding the string")

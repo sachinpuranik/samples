@@ -5,9 +5,15 @@ package main
 import (
 	"fmt"
 	"time"
+
+	"github.com/jinzhu/copier"
 )
 
+type F interface {
+	Print()
+}
 type S struct {
+	S1
 	data string
 }
 
@@ -15,34 +21,40 @@ func (s S) Read() string {
 	return s.data
 }
 
+// func (s S) Print() {
+// 	fmt.Println("Thats S")
+// }
+
 func (s *S) Write(str string) {
 	s.data = str
-}
-
-type F interface {
-	Print()
 }
 
 type S1 struct{}
 
 func (s S1) Print() {
-	fmt.Println("Thats s1")
+	fmt.Println("Thats S1")
 }
 
 type S2 struct{}
 
 func (s *S2) Print() {
-	fmt.Println("Thats s2")
+	fmt.Println("Thats S2")
 }
 
 func main2() {
+	sVal := S{S1{}, "A"}
+	// sPtr := &S{}
 	s1Val := S1{}
 	s1Ptr := &S1{}
 	s2Val := S2{}
 	s2Ptr := &S2{}
 
+	sVal.Print()
+	// sPtr.Print()
+
 	s1Val.Print()
 	s1Ptr.Print()
+
 	s2Val.Print()
 	s2Ptr.Print()
 
@@ -52,10 +64,11 @@ func main2() {
 	i = s2Ptr
 
 	fmt.Println(i)
+	i.Print()
 }
 
 func main3() {
-	sVals := map[int]S{1: {"A"}}
+	sVals := map[int]S{1: {data: "A"}}
 
 	// You can only call Read using a value
 	sVals[1].Read()
@@ -63,7 +76,7 @@ func main3() {
 	// This will not compile:
 	//  sVals[1].Write("test")
 
-	sPtrs := map[int]*S{1: {"A"}}
+	sPtrs := map[int]*S{1: {data: "A"}}
 
 	// You can call both Read and Write using a pointer
 	sPtrs[1].Read()
@@ -173,7 +186,44 @@ func getAdder() adder {
 	}
 }
 
-func main() {
+func main8() {
 	a := getAdder()
 	a.CallMe()
+}
+
+type MainSchema struct {
+	UserID      int64
+	FirstName   string
+	LastName    string
+	Email       string
+	Mobile      string
+	DisplayName string
+	UserData    string `json:"-"`
+}
+
+type SubSchema struct {
+	FirstName string
+	LastName  string
+}
+
+func copy(unknown interface{}) res interface{}
+	fmt.Println(unknown)
+	small := &SubSchema{}
+	copier.Copy(small, unknown)
+	fmt.Println(small)
+	small.FirstName = "Suvarna"
+	small.LastName = "Puranik"
+	copier.Copy(unknown, small)
+	fmt.Println(unknown)
+}
+
+func main() {
+	u := MainSchema{
+		UserID:    1,
+		FirstName: "Sachin",
+		LastName:  "Kumar",
+		Email:     "abc@xyz.com",
+	}
+	res := copy(u)
+	fmt.Println(unknown)
 }

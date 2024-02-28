@@ -5,10 +5,8 @@ import (
 	"math"
 )
 
-func main() {
+func reverseNumber(x int) int {
 	maxInt32, _ := math.MaxInt32, math.MinInt32
-
-	x := -1234
 
 	n := x
 
@@ -16,8 +14,8 @@ func main() {
 	sign := 1
 
 	if n < 0 {
-		sign = -1
-		n = -n
+		sign = -1 // take out the sign
+		n = -n    // negate the number
 	}
 
 	for n > 0 {
@@ -33,8 +31,13 @@ func main() {
 		revN = revN*10 + pop
 
 	}
-
 	revN = sign * revN
 
-	fmt.Printf("\n number %d , reverse number : %d", x, revN)
+	return revN
+}
+
+func main() {
+	x := -1234
+	rx := reverseNumber(x)
+	fmt.Printf("\n number %d , reverse number : %d", x, rx)
 }

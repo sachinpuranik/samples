@@ -28,6 +28,13 @@ func maxAreaSlow(height []int) int {
 	return maxVolume
 }
 
+func max(n1, n2 int) int {
+	if n1 > n2 {
+		return n1
+	}
+	return n2
+}
+
 func maxAreaFast(height []int) int {
 	maxVolume := 0
 	l := 0
@@ -35,10 +42,8 @@ func maxAreaFast(height []int) int {
 
 	for r > l {
 
-		maxHeight := height[l]
-		if maxHeight > height[r] {
-			maxHeight = height[r]
-		}
+		maxHeight := max(height[l], height[r])
+
 		vol := maxHeight * (r - l)
 
 		if vol > maxVolume {

@@ -54,10 +54,68 @@ func lengthOfLongestSubstring(s string) int {
 	return finalLen
 }
 
+// Function to efficiently find the longest substring without repeating characters
+func lengthLongestUniqueSubstringGemini(s string) int {
+	var startIdx, endIdx int
+	start, end, maxLength := 0, 0, 0
+	seen := make(map[byte]int) // Use a map to track seen characters efficiently
+
+	for i := 0; i < len(s); i++ {
+		// Check if the current character is already seen
+		ss := s[i]
+		if pos, ok := seen[ss]; ok {
+			// Update start index if the previous occurrence is beyond the current substring
+			if pos > start {
+				start = pos + 1
+			}
+		}
+
+		// Update the seen map and update potential max length
+		seen[s[i]] = i
+		if end-start+1 > maxLength {
+			maxLength = end - start + 1
+			// Update potential substring based on updated start and max length
+			startIdx, endIdx = start, end+1 // +1 to include the current character
+		}
+
+		end = i // Update end of the current potential substring
+	}
+
+	// Return the longest substring
+	return len(s[startIdx:endIdx])
+}
+
+// This is calculating pure length and not the substring
+func lengthOfLongestSubstringGPT(s string) int {
+	charIndex := make(map[rune]int)
+	maxLength := 0
+	startIndex := 0
+	preservedStartIndex := 0
+
+	for i, char := range s {
+		if index, found := charIndex[char]; found && index >= startIndex {
+			startIndex = index + 1
+		}
+
+		charIndex[char] = i
+		currentLength := i - startIndex + 1
+		if currentLength > maxLength {
+			preservedStartIndex = startIndex
+			maxLength = currentLength
+		}
+		fmt.Println(charIndex)
+	}
+
+	fmt.Println(charIndex)
+	fmt.Println(s[preservedStartIndex : preservedStartIndex+maxLength])
+
+	return maxLength
+}
+
 func main() {
 	// expect 3,1,3,14
-	set := []string{"abcabcbb", "bbbbb", "pwwkew", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
+	set := []string{"ababcdaxyzabc", "abcabcbb", "bbbbb", "pwwkew", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
 	for _, s := range set {
-		fmt.Printf("\n len %s:(%d)", s, lengthOfLongestSubstring(s))
+		fmt.Printf("\n len %s:(%d)", s, lengthOfLongestSubstringGPT(s))
 	}
 }
