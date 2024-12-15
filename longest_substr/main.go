@@ -93,7 +93,8 @@ func lengthOfLongestSubstringGPT(s string) int {
 	preservedStartIndex := 0
 
 	for i, char := range s {
-		if index, found := charIndex[char]; found && index >= startIndex {
+		index, found := charIndex[char]
+		if found && index >= startIndex {
 			startIndex = index + 1
 		}
 

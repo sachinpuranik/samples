@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
 )
 
@@ -206,7 +207,7 @@ type SubSchema struct {
 	LastName  string
 }
 
-func copy(unknown interface{}) res interface{}
+func copy(unknown interface{}) interface{} {
 	fmt.Println(unknown)
 	small := &SubSchema{}
 	copier.Copy(small, unknown)
@@ -215,9 +216,10 @@ func copy(unknown interface{}) res interface{}
 	small.LastName = "Puranik"
 	copier.Copy(unknown, small)
 	fmt.Println(unknown)
+	return unknown
 }
 
-func main() {
+func main9() {
 	u := MainSchema{
 		UserID:    1,
 		FirstName: "Sachin",
@@ -225,5 +227,23 @@ func main() {
 		Email:     "abc@xyz.com",
 	}
 	res := copy(u)
-	fmt.Println(unknown)
+	fmt.Println(res)
+}
+
+func main() {
+	coursesHandler := func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "Hello from the other side",
+		})
+	}
+	router := gin.Default()
+
+	// Handler for "/website/courses"
+	router.GET("/website/courses", coursesHandler)
+
+	// Serve static files for other paths
+	router.Static("/", "./website")
+
+	// Run the server
+	router.Run(":8080")
 }
