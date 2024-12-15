@@ -1,1 +1,49 @@
 Read more about - Network Address Translation (NAT)
+
+
+
+1. Two Sum Problem
+Problem: Find two numbers in an array that add up to a given target.
+Data Structures: Arrays, Hashmaps.
+2. Reverse a Linked List
+Problem: Reverse a singly linked list in place.
+Data Structures: Linked List.
+3. Longest Substring Without Repeating Characters
+Problem: Find the length of the longest substring without repeating characters.
+Concepts: Sliding Window, Hashmaps.
+4. Merge Two Sorted Arrays/Linked Lists
+Problem: Merge two sorted arrays or linked lists into one sorted structure.
+Data Structures: Arrays, Linked Lists.
+5. Find Missing Number in an Array
+Problem: Find the single missing number in an array of size n containing numbers from 1 to n.
+Concepts: XOR, Summation Formula.
+6. Check if a String is a Palindrome
+Problem: Verify if a given string reads the same forwards and backward.
+Concepts: Two-pointer technique.
+7. Find the First Non-Repeating Character
+Problem: Find the first character in a string that does not repeat.
+Data Structures: Hashmaps.
+8. Valid Parentheses
+Problem: Check if a string of brackets (e.g., {[()]}) is valid.
+Data Structures: Stack.
+9. Maximum Subarray Sum (Kadane’s Algorithm)
+Problem: Find the largest sum of contiguous subarray.
+Concepts: Dynamic Programming.
+10. Binary Search
+Problem: Implement binary search to find an element in a sorted array.
+Data Structures: Arrays, Divide and Conquer.
+11. Find Cycle in a Linked List
+Problem: Determine if a linked list contains a cycle.
+Concepts: Floyd’s Cycle Detection Algorithm (Two Pointers).
+12. FizzBuzz
+Problem: Print numbers from 1 to n with multiples of 3 replaced by “Fizz” and multiples of 5 replaced by “Buzz”.
+Concepts: Modular Arithmetic.
+13. Implement a Queue Using Stacks
+Problem: Implement a queue's enqueue and dequeue operations using two stacks.
+Data Structures: Stacks.
+14. Depth-First Search (DFS) and Breadth-First Search (BFS)
+Problem: Implement DFS and BFS on a graph or tree.
+Data Structures: Graphs, Queues, Stacks.
+15. Find Kth Largest Element in an Array
+Problem: Find the kth largest element in an unsorted array.
+Concepts: Heap, Quick Select.

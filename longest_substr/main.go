@@ -85,8 +85,33 @@ func lengthLongestUniqueSubstringGemini(s string) int {
 	return len(s[startIdx:endIdx])
 }
 
-// This is calculating pure length and not the substring
-func lengthOfLongestSubstringGPT(s string) int {
+// abcbdef
+func lengthOfLongestSubstringSimple(s string) int {
+	charIndex := make(map[rune]int) // Map to store the last seen index of characters
+	maxLength := 0                  // Tracks the length of the longest substring
+	startIndex := 0                 // Tracks the starting index of the current substring
+
+	for i, char := range s {
+		oldIndex, found := charIndex[char]
+		if found && oldIndex >= startIndex {
+			// Move the startIndex to exclude the duplicate character
+			startIndex = oldIndex + 1
+		}
+
+		// Update the character's last seen index
+		charIndex[char] = i
+
+		// Update maxLength directly
+		if i-startIndex+1 > maxLength {
+			maxLength = i - startIndex + 1
+		}
+	}
+
+	return maxLength
+}
+
+// condition oldIndex >= startIndex is important as it helps not updating the startIndex to wrong value when found a repeat element out of the current window.
+func LongestSubstringSimple(s string) int {
 	charIndex := make(map[rune]int)
 	maxLength := 0
 	startIndex := 0
@@ -115,8 +140,8 @@ func lengthOfLongestSubstringGPT(s string) int {
 
 func main() {
 	// expect 3,1,3,14
-	set := []string{"ababcdaxyzabc", "abcabcbb", "bbbbb", "pwwkew", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
+	set := []string{"abba", "abcabcbb", "abcbdef", "abcdae", "abcabcbb", "ababcdaxyzabc", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
 	for _, s := range set {
-		fmt.Printf("\n len %s:(%d)", s, lengthOfLongestSubstringGPT(s))
+		fmt.Printf("\n len %s:(%d)", s, LongestSubstringSimple(s))
 	}
 }
