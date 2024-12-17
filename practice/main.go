@@ -137,30 +137,6 @@ func printDLL(head *DNode) {
 	fmt.Println(t.val)
 }
 
-func main() {
-	// sll := createSLL()
-	// printSLL(sll)
-	// sll = createCycle(sll)
-	// fmt.Println("cycle => ", detectCycle(sll))
-
-	// sll = ReverseList(sll)
-	// printSLL(sll)
-
-	// dll := createDLL()
-	// printDLL(dll)
-
-	// i1, i2 := TwoSum(50)
-	// println(i1, i2)
-
-	// fmt.Println(LongestSubstr("abcdac"))
-
-	// Bubble([]int{9, 2, 56, 68, 52, 75, 39, 64, 12, 34, 54, 73})
-
-	// fmt.Println(checkVersion("11.11.13", "11.11.12"))
-
-	fmt.Println(LongestSubstr("abcdcbzxy"))
-}
-
 // Conditions -  No Repeat, possibly take from 0 , makes it easy.
 
 func TwoSum(target int) (index1 int, index2 int) {
@@ -270,11 +246,11 @@ func checkVersion(v1 string, v2 string) (int, error) {
 	l2 := len(detailedV2)
 
 	if l1 < l2 {
-		for i := l1; i <= l2; i++ {
+		for i := l1; i < l2; i++ {
 			detailedV1 = append(detailedV1, "0")
 		}
 	} else if l2 < l1 {
-		for i := l2; i <= l1; i++ {
+		for i := l2; i < l1; i++ {
 			detailedV2 = append(detailedV2, "0")
 		}
 	}
@@ -299,4 +275,279 @@ func checkVersion(v1 string, v2 string) (int, error) {
 		}
 	}
 	return 0, nil
+}
+
+func Merge(left, right []int) []int {
+	merge := make([]int, 0, len(left)+len(right))
+
+	for len(left) > 0 || len(right) > 0 {
+		if len(left) == 0 {
+			merge = append(merge, right...)
+			return merge
+		} else if len(right) == 0 {
+			merge = append(merge, left...)
+			return merge
+		} else if left[0] < right[0] {
+			merge = append(merge, left[0])
+			left = left[1:]
+		} else {
+			merge = append(merge, right[0])
+			right = right[1:]
+		}
+	}
+
+	return merge
+}
+
+func MergeSort(arr []int) []int {
+	if len(arr) <= 1 {
+		return arr
+	}
+
+	mid := len(arr) / 2
+	left := MergeSort(arr[:mid])
+	right := MergeSort(arr[mid:])
+
+	return Merge(left, right)
+}
+
+type TNode struct {
+	left  *TNode
+	right *TNode
+	val   string
+}
+
+func traverseLRR(root *TNode) {
+	if root.left != nil {
+		traverseLRR(root.left)
+	}
+	fmt.Println(root.val)
+	if root.right != nil {
+		traverseLRR(root.right)
+	}
+}
+
+func traverseRLR(root *TNode) {
+	fmt.Println(root.val)
+	if root.left != nil {
+		traverseRLR(root.left)
+	}
+	if root.right != nil {
+		traverseRLR(root.right)
+	}
+}
+
+func traverseRRL(root *TNode) {
+	fmt.Println(root.val)
+	if root.right != nil {
+		traverseRRL(root.right)
+	}
+	if root.left != nil {
+		traverseRRL(root.left)
+	}
+}
+
+func createBinaryTree() *TNode {
+	var root *TNode
+
+	left := &TNode{&TNode{nil, nil, "a"}, &TNode{nil, nil, "b"}, "i"}
+	right := &TNode{&TNode{nil, nil, "c"}, &TNode{nil, nil, "d"}, "j"}
+
+	t1 := &TNode{left, right, "m"}
+
+	left = &TNode{&TNode{nil, nil, "e"}, &TNode{nil, nil, "f"}, "k"}
+	right = &TNode{&TNode{nil, nil, "g"}, &TNode{nil, nil, "h"}, "l"}
+
+	t2 := &TNode{left, right, "n"}
+
+	root = &TNode{t1, t2, "o"}
+
+	return root
+}
+
+func main() {
+	// sll := createSLL()
+	// printSLL(sll)
+	// sll = createCycle(sll)
+	// fmt.Println("cycle => ", detectCycle(sll))
+
+	// sll = ReverseList(sll)
+	// printSLL(sll)
+
+	// dll := createDLL()
+	// printDLL(dll)
+
+	// i1, i2 := TwoSum(50)
+	// println(i1, i2)
+
+	// fmt.Println(LongestSubstr("abcdac"))
+
+	// fmt.Println(checkVersion("11.11.13", "11.11.12"))
+
+	// fmt.Println(LongestSubstr("abcdcbzxy"))
+
+	// Sorts
+	// arr := []int{9, 2, 56, 68, 52, 75, 39, 64, 12, 34, 54, 73}
+	// Bubble(arr)
+	// fmt.Println(MergeSort(arr))
+
+	// r := createBinaryTree()
+	// traverseLRR(r)
+	// traverseRLR(r)
+	// traverseRRL(r)
+
+	// fmt.Println(findSubstrCombination("abcdefaa", "aafe"))
+	// printAllSubstrings("abcd")
+
+	TestGraph()
+}
+
+func compareHash(m1 map[rune]int, m2 map[rune]int) bool {
+	if len(m1) != len(m2) {
+		return false
+	}
+
+	for k, v := range m1 {
+		count, found := m2[k]
+		if !found || count != v {
+			return false
+		}
+	}
+	return true
+}
+
+func createHash(s string) map[rune]int {
+	hash := make(map[rune]int)
+	for _, v := range s {
+		hash[v]++
+	}
+	return hash
+}
+
+func findSubstrCombination(inputStr string, subStr string) bool {
+	if len(inputStr) == 0 {
+		return false
+	}
+
+	hSubStr := createHash(subStr)
+
+	for index, v := range inputStr {
+		_, found := hSubStr[v]
+		if found && index+len(subStr) <= len(inputStr) {
+			inputHash := createHash(inputStr[index : index+len(subStr)])
+			res := compareHash(hSubStr, inputHash)
+			if res {
+				return res
+			}
+		}
+	}
+
+	return false
+}
+
+func printAllSubstrings(input string) {
+	for i := 0; i < len(input); i++ {
+		for j := i + 1; j <= len(input); j++ { // Start j from i+1 and keep j <= len(input)
+			substr := input[i:j]
+			fmt.Println(substr)
+		}
+	}
+}
+
+type GNode struct {
+	mark      bool
+	visited   bool
+	value     int
+	neighbors graph
+}
+
+type graph []*GNode
+
+func TestGraph() {
+	g := createGraph()
+	DFSTraverse(g)
+
+	g = createGraph()
+	BFSTraverse(g)
+}
+
+func createLinks(g graph, node *GNode, neighbors []int) graph {
+	for _, v := range neighbors {
+		node.neighbors = append(node.neighbors, g[v])
+	}
+	return g
+}
+
+func createGraphNodes(nodeCount int) graph {
+	var g graph
+	for i := 0; i < nodeCount; i++ {
+		n := &GNode{value: i}
+		g = append(g, n)
+	}
+
+	return g
+}
+
+func createGraph() graph {
+	g := createGraphNodes(10)
+
+	g = createLinks(g, g[0], []int{2, 3})
+	g = createLinks(g, g[2], []int{5, 7})
+	g = createLinks(g, g[3], []int{4, 6, 1})
+	g = createLinks(g, g[6], []int{9, 8})
+	g = createLinks(g, g[8], []int{1, 0})
+
+	return g
+}
+
+func DFSTraverse(g graph) {
+	fmt.Println("Running DFS")
+
+	stack := make(graph, 0, 0)
+	stack = append(stack, g[0])
+
+	for len(stack) > 0 {
+		// pop element
+		e := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		e.mark = true
+		e.visited = true
+		fmt.Println(e.value)
+
+		if e.neighbors != nil {
+			for _, child := range e.neighbors {
+				if !child.mark {
+					stack = append(stack, child)
+				}
+			}
+		}
+
+	}
+}
+
+func BFSTraverse(g graph) {
+	fmt.Println("Running BFS")
+
+	queue := make(graph, 0, 0)
+	queue = append(queue, g[0])
+
+	for len(queue) > 0 {
+		// pop element
+		e := queue[0]
+		queue = queue[1:]
+
+		e.mark = true
+		e.visited = true
+		fmt.Println(e.value)
+
+		if e.neighbors != nil {
+			for _, child := range e.neighbors {
+				if !child.mark {
+					queue = append(queue, child)
+				}
+			}
+		}
+
+	}
 }
