@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -399,7 +401,13 @@ func main() {
 	// fmt.Println(findSubstrCombination("abcdefaa", "aafe"))
 	// printAllSubstrings("abcd")
 
-	TestGraph()
+	// TestGraph()
+
+	// printZigZag("abcdefghijklmnopqrst", 4)
+
+	// fmt.Println(RevNumber(-32767))
+
+	fmt.Println(QueenAttack([][]int{{1, 5}, {3, 5}}))
 }
 
 func compareHash(m1 map[rune]int, m2 map[rune]int) bool {
@@ -550,4 +558,96 @@ func BFSTraverse(g graph) {
 		}
 
 	}
+}
+
+type direction int
+
+const (
+	up   direction = 1
+	down direction = 2
+)
+
+func printZigZag(s string, rowCount int) {
+	l := len(s)
+	cycleElements := (rowCount + (rowCount - 2))
+	fullSlots := l / cycleElements
+	shortSlots := l % cycleElements
+	OneSlotCols := cycleElements - rowCount + 1
+	totalCols := OneSlotCols*fullSlots + shortSlots
+
+	rows := make([][]string, rowCount)
+	for i := range rows {
+		rows[i] = make([]string, totalCols)
+	}
+
+	navigation := down
+	currentRow := 0
+	currentCol := 0
+
+	for _, r := range s {
+		rows[currentRow][currentCol] = string(r)
+
+		if navigation == up {
+			currentCol++
+			currentRow--
+		} else {
+			currentRow++
+		}
+
+		if currentRow == rowCount-1 {
+			navigation = up
+		} else if currentRow == 0 {
+			navigation = down
+		}
+	}
+
+	for _, r := range rows {
+		fmt.Println(r)
+	}
+}
+
+func RevNumber(n int) (int, error) {
+	maxInt := math.MaxInt32
+	nc := n
+	sign := 1
+	revN := 0
+	if nc < 9 {
+		sign = -1
+		nc = nc * sign
+	}
+
+	for nc > 0 {
+		pop := nc % 10
+		nc = nc / 10
+
+		if revN > (maxInt - (pop * 10)) {
+			return -1, errors.New("reverse conversion overflow")
+		}
+		revN = revN*10 + pop
+	}
+
+	if sign < 0 {
+		revN = revN * sign
+	}
+
+	return revN, nil
+}
+
+func QueenAttack(board [][]int) bool {
+	for i := 0; i < len(board); i++ {
+		for j := 0; j < len(board); j++ {
+			if i == j {
+				continue
+			}
+
+			pos1 := board[i]
+			pos2 := board[j]
+
+			if pos1[0] == pos2[0] || pos1[1] == pos2[1] || (math.Abs(float64(pos1[0]-pos2[0])) == math.Abs(float64(pos1[1]-pos2[1]))) {
+				return true
+			}
+
+		}
+	}
+	return false
 }

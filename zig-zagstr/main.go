@@ -59,24 +59,25 @@ func convertZigZagSlow(s string, numRows int) string {
 // 3. For each row , iterate through array pick the elements. if row number is 0 or row number numRows-1, then we will pick only one element j+i , else we will pick two elements j+i and j+cycleLen-i (its like v)
 // 4. example - ABCDEFGHIJKLMN with 3 rows, for row 0 , it will be A, E, I, M., for row 1, it will be B, D, F, H, J, L, N. for row 2, it will be C, G, K.
 // Note - In each cycle
-func convertZigZagFast(s string, numRows int) string {
-	if numRows == 1 {
+
+func convertZigZag(s string, numRows int) string {
+	if numRows == 1 || len(s) <= numRows {
 		return s
 	}
 
 	var result strings.Builder
 	n := len(s)
-	cycleLen := 2 * (numRows - 1)
+	cycleLen := 2 * (numRows - 1) // Full cycle length
 
-	for i := 0; i < numRows; i++ {
-		fmt.Printf("\n Loop i : %d", i)
-		for j := 0; j+i < n; j += cycleLen {
-			fmt.Printf("\n Loop j : %d", j)
-			fmt.Printf("\n result.WriteByte(s[j(%d)+i(%d)])) : %d", j, i, j+i)
-			result.WriteByte(s[j+i])
-			if i != 0 && i != numRows-1 && j+cycleLen-i < n {
-				fmt.Printf("\n result.WriteByte(s[j(%d)+cycleLen(%d)-i(%d)]) : %d", j, cycleLen, i, j+cycleLen-i)
-				result.WriteByte(s[j+cycleLen-i])
+	for row := 0; row < numRows; row++ {
+		for j := row; j < n; j += cycleLen {
+			// Add the primary character in the current row
+			result.WriteByte(s[j])
+
+			// Add the diagonal character for rows that are not the first or last
+			diag := j + cycleLen - 2*row
+			if row > 0 && row < numRows-1 && diag < n {
+				result.WriteByte(s[diag])
 			}
 		}
 	}
@@ -98,7 +99,7 @@ func main() {
 	}
 
 	numRows = 4
-	out = convertZigZagFast(s, numRows)
+	out = convertZigZag(s, numRows)
 
 	if out == "AGMBFHLNCEIKDJ" {
 		fmt.Println("pass")
