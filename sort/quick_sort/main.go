@@ -16,6 +16,7 @@ func QuickSort(arr []int) []int {
 
 	// Partitioning: rearrange elements around pivot
 	i := -1
+	// since last element is pivote , we are considering looping only upto LastIndex-1
 	for j := 0; j < pivotIndex; j++ {
 		if arr[j] < pivot {
 			i++
@@ -25,6 +26,7 @@ func QuickSort(arr []int) []int {
 
 	// Place the pivot in its correct sorted position
 	arr[i+1], arr[pivotIndex] = arr[pivotIndex], arr[i+1]
+	// set the new pivot index after swap
 	pivotIndex = i + 1
 
 	// Recursively sort left and right subarrays

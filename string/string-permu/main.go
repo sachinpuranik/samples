@@ -43,7 +43,7 @@ func permutation(prefix, str string) {
 	}
 }
 
-func generateCombinations(s string) []string {
+func generatePermutations(s string) []string {
 	result := []string{}
 
 	if len(s) == 1 {
@@ -52,7 +52,7 @@ func generateCombinations(s string) []string {
 	}
 	for i, rune := range s {
 		subStr := s[0:i] + s[i+1:]
-		pastResult := generateCombinations(subStr)
+		pastResult := generatePermutations(subStr)
 		for _, past := range pastResult {
 			result = append(result, string(rune)+past)
 		}
@@ -64,7 +64,7 @@ func generateCombinations(s string) []string {
 func main() {
 	s := "1234"
 
-	result := generateCombinations(s)
+	result := generatePermutations(s)
 	for _, r := range result {
 		fmt.Println(r)
 	}

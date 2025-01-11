@@ -5,7 +5,7 @@ import (
 )
 
 // Problem - def
-// Find the lomgest substr from a given string
+// Find the longest substr from a given string , without a repeated character
 
 func getLen(s string) int {
 	counter := make(map[rune]int, 0)
@@ -140,7 +140,9 @@ func LongestSubstringSimple(s string) int {
 
 func main() {
 	// expect 3,1,3,14
-	set := []string{"abba", "abcabcbb", "abcbdef", "abcdae", "abcabcbb", "ababcdaxyzabc", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
+	// set := []string{"abba", "abcabcbb", "abcbdef", "abcdae", "abcabcbb", "ababcdaxyzabc", "xhhyccrcbdczkvzeeubynglxfdedshtpobqsdhufkzgwuhaabdzrlkosnuxibrxssnkxuhcggkecshdvkcmymdqbxolbfjtzyfw"}
+	set := []string{"zomato", "zozoto", "zomazamto"}
+
 	for _, s := range set {
 		fmt.Printf("\n len %s:(%d)", s, LongestSubstringSimple(s))
 	}

@@ -35,7 +35,7 @@ func strStr(haystack string, needle string) int {
 
 func main() {
 	s := "├this is a string"
-	ss := "├th"
+	ss := "is"
 	pos := strStr(s, ss)
 
 	fmt.Printf("\n str : %s, find : %s, pos : %d", s, ss, pos)

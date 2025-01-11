@@ -47,8 +47,8 @@ func main() {
 	fmt.Println(slice)
 
 	// if you have to pass an array , you need to convert it to slice and then pass.
-	arr := [9]int{10, 91, 65, 23, 14, 67, 89, 54, 78}
-	slice = arr[:]
-	BubbleDescending(slice)
-	fmt.Println(slice)
+	// arr := [9]int{10, 91, 65, 23, 14, 67, 89, 54, 78}
+	// slice = arr[:]
+	// BubbleDescending(slice)
+	// fmt.Println(slice)
 }

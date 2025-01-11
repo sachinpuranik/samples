@@ -63,6 +63,11 @@ func worker(id int, barrier *Barrier) {
 	fmt.Printf("Worker %d: Passed the barrier\n", id)
 }
 
+// This program describes the barrier example.
+// Total of 5 = 4 Threads + 1 Main thread are created.
+// Untill the last thread reach the barrier , All threads shall wait.
+// The moment last thread comes up , it runs and also release the other threads by changing the count.
+// The momeny count is not
 func main() {
 	const numWorkers = 5
 

@@ -71,7 +71,7 @@ func insertNodeRecursive(root *Node, value int) *Node {
 	return root
 }
 
-// visitPreOrder - LRR (Root - Left - Right)
+// visitPreOrder - RLR (Root - Left - Right)
 func visitPreOrder(node *Node) []int {
 	var vLeft, vRight []int
 	res := []int{}

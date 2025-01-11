@@ -68,6 +68,7 @@ func convertZigZag(s string, numRows int) string {
 	var result strings.Builder
 	n := len(s)
 	cycleLen := 2 * (numRows - 1) // Full cycle length
+	// cycleLen := (numRows - 2) + numRows //This is another method
 
 	for row := 0; row < numRows; row++ {
 		for j := row; j < n; j += cycleLen {

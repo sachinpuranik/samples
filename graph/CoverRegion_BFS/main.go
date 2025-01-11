@@ -57,8 +57,8 @@ func main() {
 		},
 	}
 
-	marked = make(map[xy]bool, 0)
-	visited = make(map[xy]bool, 0)
+	// marked = make(map[xy]bool, 0)
+	// visited = make(map[xy]bool, 0)
 
 	for _, t := range test {
 		matrix := t.input
@@ -70,39 +70,39 @@ func main() {
 }
 
 func solve(board [][]byte) {
-	m := len(board)
-	if m == 0 {
+	rows := len(board)
+	if rows == 0 {
 		return
 	}
-	n := len(board[0])
+	cols := len(board[0])
 
-	var dfs func(i, j int)
-	dfs = func(i, j int) {
-		if i < 0 || i >= m || j < 0 || j >= n || board[i][j] != 'O' {
+	var dfs func(row, col int)
+	dfs = func(row, col int) {
+		if row < 0 || row >= rows || col < 0 || col >= cols || board[row][col] != 'O' {
 			return
 		}
-		board[i][j] = '*'
-		dfs(i+1, j)
-		dfs(i-1, j)
-		dfs(i, j+1)
-		dfs(i, j-1)
+		board[row][col] = '*'
+		dfs(row+1, col)
+		dfs(row-1, col)
+		dfs(row, col+1)
+		dfs(row, col-1)
 	}
 
-	for i := 0; i < m; i++ {
-		dfs(i, 0)
-		dfs(i, n-1)
+	for row := 0; row < rows; row++ {
+		dfs(row, 0)
+		dfs(row, cols-1)
 	}
-	for j := 0; j < n; j++ {
-		dfs(0, j)
-		dfs(m-1, j)
+	for col := 0; col < cols; col++ {
+		dfs(0, col)
+		dfs(rows-1, col)
 	}
 
-	for i := 0; i < m; i++ {
-		for j := 0; j < n; j++ {
-			if board[i][j] == 'O' {
-				board[i][j] = 'X'
-			} else if board[i][j] == '*' {
-				board[i][j] = 'O'
+	for row := 0; row < rows; row++ {
+		for col := 0; col < cols; col++ {
+			if board[row][col] == 'O' {
+				board[row][col] = 'X'
+			} else if board[row][col] == '*' {
+				board[row][col] = 'O'
 			}
 		}
 	}
